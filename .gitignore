@@ -1,0 +1,19 @@
+# Build
+build/
+
+# Build script (contains local paths)
+build.ps1
+
+# External libraries (dependencies)
+lib/*.jar
+
+# IDE
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+
+# Files created by the plugin during operation
+data.yml

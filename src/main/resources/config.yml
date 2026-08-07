@@ -1,0 +1,187 @@
+# ============================================================
+#  DeathCooldownTimer config
+# ============================================================
+# When a player dies they CANNOT click "Respawn" — instead they
+# see a countdown timer on the death screen. When the timer runs
+# out the player is respawned automatically.
+#
+# There are two level modes (see redemption-enabled):
+#   cycle    — the wait time depends on the death counter:
+#              1st death -> level 1, 2nd death -> level 2, etc.
+#              After the LAST level the counter resets and repeats.
+#   redeem   — the wait time depends on the PLAYER'S level, which
+#              goes up on death (never above the last level) and
+#              goes down for surviving
+#              (drop-multiplier x the level time).
+#
+# Level format:
+#   "10"   or "10s"  -> seconds
+#   "2m"   or "2min" -> minutes
+#   "1h"   or "1hour" -> hours
+#   "1d"   or "1day"  -> days
+#   (also: s, sec, second(s), m, min, minute(s),
+#          h, hr, hour(s), d, day(s))
+# ============================================================
+
+# Language of the built-in messages. If you change this, all default
+# messages below switch language automatically (unless you changed a
+# specific message yourself). Comments in this file are ALWAYS English.
+#   en  — English (default)
+#   ru  — Russian
+language: en
+
+# The level order = the order of the player's deaths.
+# By default: 10, 20, 30, 40, 50, 60 seconds, then 2..30 minutes.
+levels:
+  - 10s
+  - 20s
+  - 30s
+  - 40s
+  - 50s
+  - 60s
+  - 2m
+  - 3m
+  - 4m
+  - 5m
+  - 6m
+  - 7m
+  - 8m
+  - 9m
+  - 10m
+  - 11m
+  - 12m
+  - 13m
+  - 14m
+  - 15m
+  - 16m
+  - 17m
+  - 18m
+  - 19m
+  - 20m
+  - 21m
+  - 22m
+  - 23m
+  - 24m
+  - 25m
+  - 26m
+  - 27m
+  - 28m
+  - 29m
+  - 30m
+
+# true  — after the last level the counter resets to the first (10s).
+# false — after the last level the time stays at the maximum forever.
+# (Only used in cycle mode, see redemption-enabled)
+reset-after-last-level: false
+
+# ============================================================
+#  Redemption system
+# ============================================================
+# true  — death RAISES the player's level by 1 (but never above the
+#         last level, i.e. no cycling: died on the last one — stays there).
+#         The punishment = the time of the NEW level the player got.
+#         After respawning, if the player survived
+#         drop-multiplier x level time (e.g. 3 x 5 min = 15 min),
+#         the level drops by 1, and so on down to the first level.
+# false — simple cycling (as before): the level depends only on the
+#         death counter, see reset-after-last-level.
+redemption-enabled: true
+
+# How many times the level time the player must survive
+# for their level to drop by 1 (default 3).
+drop-multiplier: 3
+
+# Message when the level goes up (because of a death). {level} — the new level.
+# Empty string — don't show.
+level-up-message: "&cYour redemption level increased: &6{level}"
+
+# Message when the level goes down (for surviving). {level} — the new level.
+# Empty string — don't show.
+level-down-message: "&aRedemption level decreased: &6{level}"
+
+# Message with the amount of lives after respawning. {lives} — lives left.
+# Empty string — don't show.
+lives-message: "&eLives left: &6{lives}"
+
+# Message "Time left until redemption" after respawning. {time} — remaining time.
+# Empty string — don't show.
+redemption-message: "&eTime left until redemption: &6{time}"
+
+# Save the players' death counters to data.yml
+# (the counter survives server restarts).
+persist-death-counter: true
+
+# Death screen timer display settings.
+display:
+  # Title (big centered text). {time} — remaining time
+  # Disabled by default — hides the red "You died!" heading.
+  use-title: false
+  title: "&cYou died!"
+  # Subtitle below the title
+  # Disabled by default — hides the countdown under the name.
+  use-subtitle: false
+  subtitle: "&eRespawning in &c{time}"
+  # Bar above the hotbar (ActionBar)
+  # Enabled by default. ActionBar text cannot be scaled, so "bigger" means bold.
+  use-actionbar: true
+  # Makes the actionbar timer text bold (bigger/more visible)
+  actionbar-bold: true
+  actionbar: "&eYou will respawn in &c{time}"
+  # How often to refresh the on-screen timer (20 = once a second)
+  update-ticks: 20
+
+# Format of the remaining time in text:
+#   seconds — just seconds (e.g. "45s")
+#   short   — "1m 5s" / "25s", from 1 hour — "1h 5m"
+#   mmss    — "01:05", from 1 hour — "01:05:30"
+time-format: short
+
+# Show a chat message on death. Placeholders:
+#   {time}   — the wait time
+#   {deaths} — how many times the player has already died
+#   {level}  — the number of the current level
+use-death-message: true
+death-message: "&cYou died! Respawn in &6{time}&c. Total deaths: &6{deaths}"
+
+# Show a message when the timer ends and the player respawns.
+use-respawned-message: true
+respawned-message: "&aYou respawned!"
+
+# Continue the timer if the player leaves the game before it ends.
+# true  — on rejoin with a not-yet-expired timer the player is put back
+#         on the death screen and the timer continues. If the timer has
+#         already expired (while the player was away) they just keep playing.
+# false — the timer resets on logout (as before).
+resume-on-rejoin: true
+
+# Worlds where the timer works. Empty list = all worlds.
+enabled-worlds: []
+
+# Verbose debug logs to the console (LimitedLives lives, plugin decisions).
+# Turn on while diagnosing, then turn off.
+debug: false
+
+# ============================================================
+#  LimitedLives plugin compatibility
+#  (https://github.com/srnyx/limited-lives)
+# ============================================================
+limited-lives:
+  # Enable/disable LimitedLives integration.
+  # Enabled by DEFAULT. If the LimitedLives plugin is NOT installed —
+  # this section is fully ignored (checks and the lives message are
+  # disabled automatically), so there is nothing to toggle.
+  enabled: true
+
+  # The player does NOT enter the timer if before this death they had
+  # NO MORE than this many lives. Usually the last life:
+  #   skip-if-lives-at-or-below: 1  -> died with the last life -> no timer
+  # LimitedLives itself will put the player into spectator
+  # (configured in its commands.punishment.respawn).
+  skip-if-lives-at-or-below: 1
+
+# Note: with LimitedLives integration enabled, if a player with an
+# unexpired timer logs out and back in (and gets put back on the death
+# screen, resume-on-rejoin), LimitedLives removes 1 life for that.
+# The plugin automatically gives that life back.
+
+# Author: Mr712 | GitHub: https://github.com/byMr712

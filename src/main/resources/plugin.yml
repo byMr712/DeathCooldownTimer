@@ -1,0 +1,17 @@
+name: DeathCooldownTimer
+version: 1.0.0
+main: dev.deathcooldown.DeathCooldownPlugin
+api-version: '1.21'
+author: Mr712
+depend: [ProtocolLib]
+softdepend: [LimitedLives, PlaceholderAPI]
+description: Таймер возрождения после смерти. С каждой смертью время ожидания растёт, по достижении максимума сбрасывается.
+commands:
+  dctimer:
+    description: Команды плагина DeathCooldownTimer
+    usage: /dctimer reload | reset [игрок] | revive <игрок|@a|@r|@p>
+    permission: deathcooldown.admin
+permissions:
+  deathcooldown.admin:
+    description: Доступ к командам DeathCooldownTimer
+    default: op
